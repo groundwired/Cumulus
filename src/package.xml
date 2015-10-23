@@ -180,6 +180,9 @@
         <members>STG_SettingsService</members>
         <members>STG_UninstallScript</members>
         <members>STG_UninstallScript_TEST</members>
+        <members>SummaryProfileFieldSelection</members>
+        <members>SummaryProfileSettingsUtility</members>
+        <members>SummaryProfileTooling</members>
         <members>SummaryProfileView</members>
         <members>TDTM_Config_API</members>
         <members>TDTM_DefaultConfig</members>
@@ -222,6 +225,7 @@
     <types>
         <members>STG_DataBoundMultiSelect</members>
         <members>STG_PageHeader</members>
+        <members>SummaryProfileFieldSelector</members>
         <members>UTIL_JobProgress</members>
         <members>UTIL_SoqlListView</members>
         <members>UTIL_Typeahead</members>
@@ -1100,6 +1104,7 @@
         <members>stgNavSystem</members>
         <members>stgNavTriggerConfig</members>
         <members>stgNavUserDefinedRollups</members>
+        <members>stgSummaryProfileHelpAffil</members>
         <members>stgValidationHHAccountHHRules</members>
         <name>CustomLabel</name>
     </types>

@@ -1,15 +1,182 @@
-<apex:page showHeader="false" sidebar="false" standardController="Contact" extensions="SummaryProfileView" title="Summary Profile">
-	
-	<h1>{!con.Name}</h1>
-	<h3>{!con.Primary_Affiliation__r.Name}</h3>
-
-	<p>Here is everything about this donor! For example, email is: {!con.Email}</p>
-
-<!-- 	<table>
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" standardController="Contact" extensions="SummaryProfileView" title="Summary Profile">
+	<!-- <apex:stylesheet value="https://drive.google.com/open?id=0B8iTUPbf1WI4bUlhWWNRM3RjekE" /> -->
+	<style>
+@font-face {
+    font-family: SalesforceSans-Light;
+    src: url(fonts/SalesforceSans-Light.ttf);
+}
+@font-face {
+    font-family: SalesforceSans-Regular;
+    src: url(fonts/SalesforceSans-Regular.ttf);
+}
+@font-face {
+    font-family: SalesforceSans-Bold;
+    src: url(fonts/SalesforceSans-Bold.ttf);
+}
+h1 {
+	font-size: 2.75em;
+	margin: .6em 0 .6em 0;
+	font-family: SalesforceSans-Bold;
+}
+h2 {
+	font-family: SalesforceSans-Bold;
+}
+h3, h4 {
+	display: inline;
+}
+h3 {
+	margin-right: 10px;
+	font-weight: bold;
+	font-family: SalesforceSans-Regular;
+}
+h4 {
+	font-weight: normal;
+	font-size: 1.17em;
+	font-family: SalesforceSans-Light;
+}
+section {
+	float: left;
+	width: 100%;
+}
+.profile-name {
+	float: left;
+	width: 75%;
+}
+.profile-image {
+	float: left;
+	width: 25%;
+}
+.primary-affiliation-text {
+	float: left;
+}
+td {
+	padding: 0 20px 0 0;
+	font-family: SalesforceSans-Light;
+}
+.related-table tr:first-child td {
+	font-family: SalesforceSans-Regular;
+}
+td:last-child {
+	padding: 0;
+}
+	</style>
+	<section id="header">
+		<div class="profile-name">
+			<h1>{!con.Name}</h1>
+			<hr />
+		</div>
+		<div class="profile-image">
+			<img src="headshot.png" alt="Profile Icon" />
+		</div>
+	</section>
+	<section id="contact-info">
+		<div class="contact-info">			
+			<h3>Primary Affiliation:</h3>
+			<apex:outputPanel rendered="{!NOT(ISBLANK(con.Primary_Affiliation__c))}">
+				<h4><apex:outputPanel rendered="{!NOT(ISBLANK(con.Title))}">{!con.Title}, </apex:outputPanel>{!con.Primary_Affiliation__r.Name}<apex:outputPanel rendered="{!NOT(ISBLANK(con.Primary_Affiliation__r.Website))}"> ({!con.Primary_Affiliation__r.Website})</apex:outputPanel></h4>
+			</apex:outputPanel>
+			<br /><h3>Phone:</h3><h4>{!con.phone}</h4>
+			<br /><h3>Email:</h3><h4>{!con.email}</h4>
+			<br /><h3>Address:</h3><h4>{!con.mailingstreet} {!con.mailingcity}, {!con.mailingstate} {!con.mailingpostalcode}</h4>
+		</div>
+	</section>
+	<section id="custom-fields">
+		<h2>Details</h2>
+		<hr />
+		<div class="custom-fields-col1">
+<!--
 	<apex:repeat var="v" value="{!customFields}">
-	<tr>
-		<td>{!v.label}</td>
-		<td>{!v.data}</td>
 	</apex:repeat>
  -->
+			<table class="custom-fields-table1">
+				<tr>
+					<td><h3>Total Giving This Calendar Year:</h3><h4>$12,500</h4></td>
+				</tr>
+				<tr>
+					<td><h3>Date of First Donation:</h3><h4>12/15/2013</h4></td>
+				</tr>
+				<tr>
+					<td><h3>Position:</h3><h4>Cloud Consultant</h4></td>
+				</tr>
+				<tr>
+					<td><h3>Volunteer:</h3><h4>Yes</h4></td>
+				</tr>
+			</table>
+		</div>
+		<div class="custom-fields-col2">
+		</div>
+	</section>
+	<section id="Activities">
+		<h2>Activities</h2>
+		<hr />
+		<table class="related-table activities-table">
+			<tr>
+				<td>Date</td>
+				<td>Subject</td>
+				<td>Type</td>
+				<td>Owner Name</td>
+			</tr>
+			<tr>
+				<td>2/4/2014</td>
+				<td>Call to set up meeting</td>
+				<td>Call (Outbound)</td>
+				<td>Joan Williams</td>
+			</tr>
+			<tr>
+				<td>1/25/2014</td>
+				<td>Welcome Packet Sent</td>
+				<td>Postal Mail</td>
+				<td>Joan Williams</td>
+			</tr>
+			<tr>
+				<td>12/18/2013</td>
+				<td>Thank You Letter</td>
+				<td>Postal Mail Sent</td>
+				<td>Joan Williams</td>
+			</tr>
+		</table>
+	</section>
+	<section id="Affiliations">
+		<h2>Affiliations</h2>
+		<hr />
+		<table class="related-table affiliations-table">
+			<tr>
+				<td>Organization Name</td>
+				<td>Role</td>
+				<td>Status</td>
+			</tr>
+			<tr>
+				<td>Portland Humane Society</td>
+				<td>Volunteer</td>
+				<td>Current</td>
+			</tr>
+			<tr>
+				<td>Widget Web Design</td>
+				<td>Employee</td>
+				<td>Former</td>
+			</tr>
+		</table>
+	</section>
+	<section id="Relationships">
+		<h2>Relationships</h2>
+		<hr />
+		<table class="related-table relationships table">
+			<tr>
+				<td>Related Contact</td>
+				<td>Type</td>
+				<td>Status</td>
+			</tr>
+			<tr>
+				<td>Sarah Washam</td>
+				<td>Wife</td>
+				<td>Current</td>
+			</tr>
+			<tr>
+				<td>Romeo</td>
+				<td>Pet - Dog</td>
+				<td>Current</td>
+			</tr>
+		</table>
+	</section>
+
 </apex:page>

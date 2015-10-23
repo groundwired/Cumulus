@@ -1,6 +1,6 @@
 <apex:page controller="STG_PanelSummaryProfile_CTRL" >
     <c:STG_PageHeader sectionLabel="{!$Label.stgNavPeople}" pageLabel="{!$Label.stgLabelSummaryProfileSettings}" />
-<!--
+
    <apex:form id="form" styleClass="form-horizontal">   
         <apex:pageMessages id="pageMessages"/>
         <apex:pageBlock mode="maindetail">
@@ -10,7 +10,7 @@
             <div class="form-group">
                 <apex:outputLabel value="{!$ObjectType.Summary_Profile__c.Fields.Affiliations_Active__c.Label}" for="cbxDOC" styleClass="col-sm-4 control-label" />
                 <div class="col-sm-8 form-control-column">
-                    <apex:inputCheckbox value="{!stgService.stgCon.Affiliations_Active__c}" disabled="{!isReadOnlyMode}" id="cbxDOC" />
+                    <!--<apex:inputCheckbox value="{!stgService.stgSummaryProfile.Affiliations_Active__c}" disabled="{!isReadOnlyMode}" id="cbxDOC" />-->
                  </div>
                 <div class="col-sm-offset-4 col-sm-8 help-block">
                     <apex:outputText value="{!$Label.stgSummaryProfileHelpAffil}" />
@@ -22,8 +22,8 @@
                 <apex:commandButton value="{!$Label.stgBtnCancel}" status="statusLoad" action="{!cancelEdit}" rendered="{!isEditMode}" immediate="true" rerender="form" styleClass="btn-sm btn-default" />
             </apex:outputPanel>
         </apex:pageBlock>
+    
+        <c:SummaryProfileFieldSelector objectname="Contact" />
     </apex:form>
-    
-   -->
-    
+
 </apex:page>

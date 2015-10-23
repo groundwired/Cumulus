@@ -5,16 +5,16 @@ public with sharing class STG_PanelSummaryProfile_CTRL extends STG_Panel {
     */
     public override string idPanel() { return 'idPanelSummaryProfile'; }
 
-    /*********************************************************************************************************
+    /********************************************************************************************************
     * @description Action Method to save the current settings
     * @return null 
-    
+    */
     public override PageReference saveSettings() {
         //logic here to take the entered values and save them
         
         return super.saveSettings();
     }
-
+/*
     
 	public list<Summary_Profile__c>getCustomSetting(){
         List<Summary_Profile__c>customSettingValue=[SELECT Id, Affiliations_Active__c,Affiliations_Inactive__c,  Email__c, 

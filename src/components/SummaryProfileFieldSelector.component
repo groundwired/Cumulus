@@ -1,0 +1,212 @@
+<apex:component controller="SummaryProfileFieldSelection" allowDML="true">
+
+<apex:attribute name="objectname" description="This is the name of the object" type="string" required="true" assignTo="{!sourceObject}" />
+
+
+<apex:includescript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </apex:includescript>
+<apex:includescript value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.js"></apex:includescript>
+
+
+
+<apex:stylesheet value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/cupertino/jquery-ui.css"></apex:stylesheet>
+<style>
+
+.left {float: left;}
+.right {float: right;}
+
+
+
+/* Columns */
+
+.column {
+	margin-left: 2%;
+	width: 22%;
+}
+.column.first 
+	{margin-left: 2%;}
+
+
+/* Sortable items */
+
+.sortable-list {
+	list-style: none;
+	margin: 0;
+	min-height: 60px;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+.sortable-source {
+	background-color: #7595D6;
+}
+
+.sortable-target {
+	background-color: #C15E5E;
+}
+
+.droppableList {
+	margin: 0;
+	min-height: 600px;
+	padding: 10px;
+	background-color: #BD7D9D;
+	border-radius: 10px;
+}
+
+.sortable-item {
+	background-color: #FFF;
+	border: 1px solid #000;
+	border-radius: 10px;
+	cursor: move;
+	display: block;
+	font-weight: bold;
+	margin: 0px 0px 3px 0px;
+	padding: 3px 0px 0px 0px;
+	text-align: center;
+	white-space: nowrap;
+}
+/* Item placeholder (visual helper) */
+
+.placeholder-source {
+	background-color: #BACAEA;
+	border: 1px dashed #666;
+	border-radius: 10px;
+	height: 38px;
+	margin: 0px 0px 3px 0px;
+	padding: 3px 0px 0px 0px;
+}
+
+.placeholder-target {
+	background-color: #D7B1C4;
+	border: 1px dashed #666;
+	border-radius: 10px;
+	height: 38px;
+	margin: 0px 0px 3px 0px;
+	padding: 3px 0px 0px 0px;
+}
+
+.sourceText, .targetText, .mapSourceText, .mapTargetText {
+	text-align: center;
+	font-weight: bold;
+	font-size: large;
+}
+
+.header {
+	width: 100%;
+	display: table-row;
+}
+
+.entire{
+	width: 100%;
+	display: table;
+}
+
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	prepLists();
+	//$('#sourceselected').sortable.append(2);
+});
+
+function prepLists(){
+	$('#sourcelist').sortable({
+		connectWith: '#sourceselected',
+		placeholder: 'placeholder-source',
+	});
+
+	$('#sourceselected').sortable({
+		connectWith: '#sourcelist',
+		placeholder: 'placeholder-source',
+	});
+
+}
+
+function goprocess(){
+	var sourceFields = $('#sourceselected').sortable('toArray');	
+    length = sourceFields.length;
+    var sourceString = '';
+    for( i=0; i < length; i++){
+    	sourceString = sourceString + sourceFields[i] + ';';
+    }
+    //console.log("sourcestring!: " + sourceString);
+    saveToCustomSetting(sourceString, null);
+
+}
+
+</script>
+
+
+	<apex:outputPanel rendered="{!SuccessfulInitiation}" >
+
+		<apex:outputPanel layout="none" id="actionfunctions" >
+			<apex:actionFunction name="saveToCustomSetting" action="{!saveToCustomSetting}" rerender="msgpanel" >
+				<apex:param name="sourceIndexStringFromJS" value="" assignTo="{!sourceIndexStringFromJS}"/>
+			</apex:actionFunction>
+
+		</apex:outputPanel>
+		<apex:outputPanel id="everythingandmore" >
+
+		<apex:outputPanel id="everything" >
+		<apex:outputPanel rendered="{!renderSaveSuccessful}" id="msgpanel">
+		<apex:pageMessages id="themsgs"/>
+		</apex:outputPanel>
+
+		 <apex:outputPanel layout="none" rendered="true" >
+		 
+			<apex:commandButton value="Send the Save" onClick="javascript:goprocess();" rerender="msgpanel" status="savingstatus"/>  
+			<apex:actionStatus startText=" (saving...)" id="savingstatus"/>
+
+		 	<div class="entire">
+				<div class="header">
+					<div class="column left first" >				
+						<div class="sourceText">
+							Available {!sourceObject} Fields<br />
+						</div>
+					</div>
+
+					<div  class="column left" >
+						<div class="mapSourceText" >
+							Selected {!sourceObject} fields...
+						</div>
+					</div>
+				</div>
+
+				<apex:outputPanel layout="none" id="sourceDiv">
+				<div class="column left first" >
+					
+		 			<apex:outputPanel id="output1">
+					<apex:outputPanel id="output2">
+					<ul id="sourcelist" class="sortable-list ui-sortable sortable-source" >
+						<apex:repeat id="list" value="{!sourceFieldWrappers}" var="field">
+						<apex:outputPanel layout="none" rendered="{!field.renderMe}">					
+							<li id="{!field.theIndex}" class="sortable-item" title="{!field.labelFull}">
+								{!field.label}
+							</li>
+						</apex:outputPanel>	
+						</apex:repeat>
+					</ul>
+					</apex:outputPanel>
+					</apex:outputPanel>
+				</div>
+				</apex:outputPanel>
+
+				<div  class="column left" >
+		 			<ul id="sourceselected" class="droppableList sortable-list ui-sortable ">
+						<apex:repeat id="preselectedsourcelist" value="{!preselectedSourceFieldWrappers}" var="field">
+							<li id="{!field.theIndex}" class="sortable-item" title="{!field.labelFull}">
+								{!field.label}
+							</li>
+						</apex:repeat>
+					</ul>
+				</div>
+			</div>
+
+		</apex:outputPanel>
+
+		</apex:outputPanel>
+		</apex:outputPanel>
+	</apex:outputPanel>
+
+</apex:component>

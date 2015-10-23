@@ -1,6 +1,5 @@
 public with sharing class SummaryProfileView {
 
-    public String renderAs {get; private set;} {renderAs = 'pdf';}
     public Id sobjId {get; private set;}
 
     private sObject sobj;
@@ -258,16 +257,18 @@ public with sharing class SummaryProfileView {
 
         if (objectType == 'Account') {
             acct = (Account)sobj;
+            if (getActivities) {
+                activities = acct.ActivityHistories;
+            }
         } else {
             con = (Contact)sobj;
-        }
-
-        if (getActivities) {
-            activities = (list<ActivityHistory>)sobj.get('ActivityHistories');
+            if (getActivities) {
+                activities = con.ActivityHistories;
+            }
         }
 
         if (settings.Affiliations_Active__c || settings.Affiliations_Inactive__c) {
-            String q = 'SELECT CreatedBy.Name, CreatedDate, Id, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, Name, npe5__Contact__c, npe5__Description__c, npe5__EndDate__c, npe5__Organization__c, npe5__Primary__c, npe5__Role__c, npe5__StartDate__c, npe5__Status__c FROM npe5__Affiliation__c ';
+            String q = 'SELECT CreatedBy.Name, CreatedDate, Id, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, Name, npe5__Contact__c, npe5__Description__c, npe5__EndDate__c, npe5__Organization__c, npe5__Organization__r.Name, npe5__Organization__r.Website, npe5__Primary__c, npe5__Role__c, npe5__StartDate__c, npe5__Status__c FROM npe5__Affiliation__c ';
             q += 'WHERE npe5__Primary__c != true ';
             if (objectType == 'Account') {
                 q += 'AND npe5__Organization__c = : sobjId ';
@@ -288,7 +289,7 @@ public with sharing class SummaryProfileView {
 
         if (objectType == 'Contact' && (settings.Relationships_Active__c || settings.Relationships_Inactive__c)) {
             String q = 'SELECT CreatedById, CreatedDate, Id, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, Name, npe4__Contact__c, npe4__Description__c, npe4__ReciprocalRelationship__c, npe4__RelatedContact__c, npe4__Relationship_Explanation__c, npe4__Status__c, npe4__SYSTEM_SystemCreated__c, npe4__Type__c, SystemModstamp FROM npe4__Relationship__c ';
-            q += 'WHERE npe5__Primary__c != true AND npe4__Contact__c = : sobjId ';
+            q += 'WHERE npe4__Contact__c = : sobjId ';
             if (settings.Relationships_Active__c && !settings.Relationships_Inactive__c) {
                 q += 'AND npe4__Status__c = \'Current\' ';
             } else if (!settings.Relationships_Active__c && settings.Relationships_Inactive__c) {
