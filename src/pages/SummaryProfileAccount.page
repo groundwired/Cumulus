@@ -1,0 +1,7 @@
+<apex:page showHeader="false" sidebar="false" standardController="Account" extensions="SummaryProfileView" title="Summary Profile">
+	
+	<h1>{!acct.Name}</h1>
+
+	<p>Here is everything about this donor! For example, primary contact is {!acct.npe01__One2OneContact__r.Name}.</p>
+
+</apex:page>

@@ -1666,4 +1666,22 @@
         <protected>false</protected>
         <requireRowSelection>true</requireRowSelection>
     </webLinks>
+    <webLinks>
+        <fullName>Summary_Profile</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <hasMenubar>false</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>false</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>page</linkType>
+        <masterLabel>Summary Profile</masterLabel>
+        <openType>newWindow</openType>
+        <page>SummaryProfileContact</page>
+        <position>none</position>
+        <protected>false</protected>
+        <showsLocation>false</showsLocation>
+        <showsStatus>false</showsStatus>
+    </webLinks>
 </CustomObject>

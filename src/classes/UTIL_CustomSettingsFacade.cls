@@ -62,6 +62,10 @@ public without sharing class UTIL_CustomSettingsFacade {
     static Household_Naming_Settings__c orgHouseholdNamingSettings;
     static Allocations_Settings__c orgAllocationsSettings;
     static Data_Import_Settings__c orgDataImportSettings;
+
+    //storing list custom settings in-memory to avoid slowing down the settings page
+    static Summary_Profile__c listSummaryProfileSettings;
+   
     
     /*******************************************************************************************************
     * @description Returns the default Contacts and Orgs settings. 
@@ -454,6 +458,31 @@ public without sharing class UTIL_CustomSettingsFacade {
             }
         }
         return orgDataImportSettings;
+    }
+
+    /*******************************************************************************************************
+    * @description Returns the list setting for Summary Profile settings. Meant to be called only from settings page and install script.
+    * @return Summary_Profile_Settings__c settings for Summary Profile Settings.
+    */
+    public static Summary_Profile__c getSummaryProfileSettings(){
+        List<Summary_Profile__c> customSettingValue = [SELECT 
+            Id, 
+            Affiliations_Active__c, 
+            Affiliations_Inactive__c, 
+            Email__c, 
+            Mailing_Address__c, 
+            Max_Activities__c, 
+            Max_Affiliations__c, 
+            Max_Relationships__c, 
+            Other_Activities__c, 
+            Phone__c, 
+            Primary_Affiliation__c, 
+            Primary_Contact__c, 
+            Relationships_Active__c, 
+            Relationships_Inactive__c 
+            FROM Summary_Profile__c LIMIT 1];
+       //built with list setting instead of hierarchy to be extensible to have multiple profile configurations in a future version
+       return customSettingValue[0];
     }
 
     /*******************************************************************************************************

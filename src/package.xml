@@ -172,6 +172,7 @@
         <members>STG_PanelRelAuto_CTRL</members>
         <members>STG_PanelRelReciprocal_CTRL</members>
         <members>STG_PanelRel_CTRL</members>
+        <members>STG_PanelSummaryProfile_CTRL</members>
         <members>STG_PanelTDTM_CTRL</members>
         <members>STG_PanelUserRollup_CTRL</members>
         <members>STG_SettingsManager_CTRL</members>
@@ -179,6 +180,7 @@
         <members>STG_SettingsService</members>
         <members>STG_UninstallScript</members>
         <members>STG_UninstallScript_TEST</members>
+        <members>SummaryProfileView</members>
         <members>TDTM_Config_API</members>
         <members>TDTM_DefaultConfig</members>
         <members>TDTM_ObjectDataGateway</members>
@@ -272,9 +274,12 @@
         <members>STG_PanelRel</members>
         <members>STG_PanelRelAuto</members>
         <members>STG_PanelRelReciprocal</members>
+        <members>STG_PanelSummaryProfile</members>
         <members>STG_PanelTDTM</members>
         <members>STG_PanelUserRollup</members>
         <members>STG_SettingsManager</members>
+        <members>SummaryProfileAccount</members>
+        <members>SummaryProfileContact</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -549,6 +554,23 @@
         <members>Schedulable__c.Class_Name__c</members>
         <members>Schedulable__c.Frequency__c</members>
         <members>Schedulable__c.Last_Time_Run__c</members>
+        <members>Summary_Profile_Custom_Fields__c.Column__c</members>
+        <members>Summary_Profile_Custom_Fields__c.Field_Name__c</members>
+        <members>Summary_Profile_Custom_Fields__c.Object_Name__c</members>
+        <members>Summary_Profile_Custom_Fields__c.Order__c</members>
+        <members>Summary_Profile__c.Affiliations_Active__c</members>
+        <members>Summary_Profile__c.Affiliations_Inactive__c</members>
+        <members>Summary_Profile__c.Email__c</members>
+        <members>Summary_Profile__c.Mailing_Address__c</members>
+        <members>Summary_Profile__c.Max_Activities__c</members>
+        <members>Summary_Profile__c.Max_Affiliations__c</members>
+        <members>Summary_Profile__c.Max_Relationships__c</members>
+        <members>Summary_Profile__c.Other_Activities__c</members>
+        <members>Summary_Profile__c.Phone__c</members>
+        <members>Summary_Profile__c.Primary_Affiliation__c</members>
+        <members>Summary_Profile__c.Primary_Contact__c</members>
+        <members>Summary_Profile__c.Relationships_Active__c</members>
+        <members>Summary_Profile__c.Relationships_Inactive__c</members>
         <members>Trigger_Handler__c.Active__c</members>
         <members>Trigger_Handler__c.Asynchronous__c</members>
         <members>Trigger_Handler__c.Class__c</members>
@@ -1037,6 +1059,7 @@
         <members>stgLabelRelSettings</members>
         <members>stgLabelSelectChatterGroup</members>
         <members>stgLabelSoftCredit</members>
+        <members>stgLabelSummaryProfileSettings</members>
         <members>stgLabelTriggerHandlers</members>
         <members>stgLabelTypeAhead</members>
         <members>stgLabelUDRNoOppFields</members>
@@ -1102,6 +1125,8 @@
         <members>Household_Naming_Settings__c</members>
         <members>Opportunity_Naming_Settings__c</members>
         <members>Schedulable__c</members>
+        <members>Summary_Profile_Custom_Fields__c</members>
+        <members>Summary_Profile__c</members>
         <members>Trigger_Handler__c</members>
         <name>CustomObject</name>
     </types>
@@ -1181,6 +1206,10 @@
         <name>ListView</name>
     </types>
     <types>
+        <members>Contact.NPSP_Contact_Personal_Email_Match</members>
+        <name>MatchingRule</name>
+    </types>
+    <types>
         <members>Account.New_Address</members>
         <members>Account.New_Affiliation</members>
         <members>Account.Quick_Household_Update</members>
@@ -1221,6 +1250,7 @@
         <members>Address__c.Verify_Address</members>
         <members>Allocation__c.Manage_Allocations</members>
         <members>Contact.Merge_Contacts</members>
+        <members>Contact.Summary_Profile</members>
         <members>DataImport__c.Delete_All_Data_Import_Records</members>
         <members>DataImport__c.Delete_Imported_Data_Import_Records</members>
         <members>DataImport__c.Process_Data_Import</members>
@@ -1243,5 +1273,5 @@
         <members>Opportunity.Opportunity Email Acknowledgment</members>
         <name>WorkflowRule</name>
     </types>
-    <version>30.0</version>
+    <version>33.0</version>
 </Package>

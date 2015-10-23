@@ -60,6 +60,18 @@ public with sharing class STG_SettingsService {
     }
     
     /*********************************************************************************************************
+    * @description The Summary Profile Settings object
+    */
+    public Summary_Profile__c stgSummaryProfile {
+        get {
+            if (stgSummaryProfile == null) stgSummaryProfile = UTIL_CustomSettingsFacade.getSummaryProfileSettings();
+            //for v1, returning just the first/single record from the list custom setting. build to extend to multiple profile configs in future versions. yay!
+            return stgSummaryProfile;
+        }
+        private set;
+    }
+    
+    /*********************************************************************************************************
     * @description The Households Settings object
     */
     public npo02__Households_Settings__c stgHH {

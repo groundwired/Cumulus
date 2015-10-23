@@ -1,0 +1,15 @@
+<apex:page showHeader="false" sidebar="false" standardController="Contact" extensions="SummaryProfileView" title="Summary Profile">
+	
+	<h1>{!con.Name}</h1>
+	<h3>{!con.Primary_Affiliation__r.Name}</h3>
+
+	<p>Here is everything about this donor! For example, email is: {!con.Email}</p>
+
+<!-- 	<table>
+	<apex:repeat var="v" value="{!customFields}">
+	<tr>
+		<td>{!v.label}</td>
+		<td>{!v.data}</td>
+	</apex:repeat>
+ -->
+</apex:page>

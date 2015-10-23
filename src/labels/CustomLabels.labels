@@ -3814,6 +3814,14 @@ Note: The NPSP Settings tab is visible in the Nonprofit Starter Pack application
         <value>Soft Credit Settings</value>
     </labels>
     <labels>
+        <fullName>stgLabelSummaryProfileSettings</fullName>
+        <categories>profile</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>stgLabelSummaryProfileSettings</shortDescription>
+        <value>Summary Profile Settings</value>
+    </labels>
+    <labels>
         <fullName>stgLabelTriggerHandlers</fullName>
         <categories>Settings</categories>
         <language>en_US</language>
