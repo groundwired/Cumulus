@@ -5,9 +5,17 @@ public with sharing class SummaryProfileSettingsUtility {
 	
 	//method to save fields to custom setting, list custom setting
 	public static void saveSummaryProfileCustomFields(List<fieldWrapper> custFields) {
-		//delete all custom fields settings
-		List<Summary_Profile_Custom_Fields__c> custFieldsSettings = [select id from Summary_Profile_Custom_Fields__c];
-		delete custFieldsSettings;
+		//get all object names from incoming fieldWrappers
+		Set<String> objNames = new Set<String>();
+		for (fieldWrapper fw : custFields) {
+			objNames.add(fw.objectName);
+		}
+		System.debug('DEBUG>>> objNames coming in '+objNames);
+		//delete all custom fields settings with objectName in the set above		
+		List<Summary_Profile_Custom_Fields__c> custFieldsSettings = [select id from Summary_Profile_Custom_Fields__c
+																		where Object_Name__c in :objNames];
+		if (custFieldsSettings.size()>0)
+			delete custFieldsSettings;
 		
 		//now insert the new ones
 		Integer orderIndex = 0;
@@ -20,6 +28,7 @@ public with sharing class SummaryProfileSettingsUtility {
 			orderIndex++;	
 			listOfCustomFields.add(sc);
 		}
+		System.debug('DEBUG >>> Saving custom settings '+listOfCustomFields);
 		insert listOfCustomFields;
 												 
 	}

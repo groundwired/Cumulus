@@ -874,4 +874,22 @@ IF(NOT(ISNULL($Setup.npo02__Households_Settings__c.npo02__Membership_Grace_Perio
         <page>HH_ManageHHAccount</page>
         <protected>false</protected>
     </webLinks>
+    <webLinks>
+        <fullName>Summary_Profile</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <hasMenubar>false</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>false</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>page</linkType>
+        <masterLabel>Summary Profile</masterLabel>
+        <openType>newWindow</openType>
+        <page>SummaryProfileAccount</page>
+        <position>none</position>
+        <protected>false</protected>
+        <showsLocation>false</showsLocation>
+        <showsStatus>false</showsStatus>
+    </webLinks>
 </CustomObject>

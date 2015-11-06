@@ -1248,10 +1248,12 @@
     </types>
     <types>
         <members>CumulusStaticResources</members>
+        <members>summary_profile_VF_page</members>
         <name>StaticResource</name>
     </types>
     <types>
         <members>Account.Manage_Household</members>
+        <members>Account.Summary_Profile</members>
         <members>Address__c.Verify_Address</members>
         <members>Allocation__c.Manage_Allocations</members>
         <members>Contact.Merge_Contacts</members>

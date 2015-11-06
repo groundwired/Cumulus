@@ -1,7 +1,204 @@
-<apex:page showHeader="false" sidebar="false" standardController="Account" extensions="SummaryProfileView" title="Summary Profile">
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" standardController="Account" extensions="SummaryProfileView" title="Summary Profile">
 	
-	<h1>{!acct.Name}</h1>
-
-	<p>Here is everything about this donor! For example, primary contact is {!acct.npe01__One2OneContact__r.Name}.</p>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'style.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'/style.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'SummaryProfileVFPageStaticResources/style.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'/SummaryProfileVFPageStaticResources/style.css')}"/>
+	<style>
+@font-face {
+    font-family: SalesforceSans-Light;
+    src: url(fonts/SalesforceSans-Light.ttf);
+}
+@font-face {
+    font-family: SalesforceSans-Regular;
+    src: url(fonts/SalesforceSans-Regular.ttf);
+}
+@font-face {
+    font-family: SalesforceSans-Bold;
+    src: url(fonts/SalesforceSans-Bold.ttf);
+}
+h1 {
+	font-size: 2.75em;
+	margin: .5em 0 .1em 0;
+	font-family: SalesforceSans-Bold;
+}
+h2 {
+	margin: 1em 0 .1em 0;
+	font-family: SalesforceSans-Bold;
+}
+h3, h4 {
+	display: inline;
+}
+h3 {
+	margin-right: 10px;
+	font-weight: bold;
+	font-family: SalesforceSans-Regular;
+}
+h4 {
+	font-weight: normal;
+	font-size: 1.17em;
+	font-family: SalesforceSans-Light;
+}
+section {
+	float: left;
+	width: 100%;
+}
+.profile-name {
+	float: left;
+	width: 75%;
+}
+.profile-image {
+	float: left;
+	width: 25%;
+}
+.primary-affiliation-text {
+	float: left;
+}
+td {
+	padding: 1px 4em 1px 0;
+	font-family: SalesforceSans-Light;
+}
+p {
+	font-family: SalesforceSans-Light;
+}
+th {
+	padding: 1px 4em 1px 0;
+	font-family: SalesforceSans-Regular;
+	text-align: left;
+}
+td:last-child {
+	padding: 0;
+}
+	</style>
+	<section id="header">
+		<div class="profile-name">
+			<h1>{!acct.Name}</h1>
+			<hr />
+		</div>
+		<div class="profile-image">
+			<apex:outputPanel rendered="{!(acct.Recordtype.DeveloperName=='HH_Account')}">
+				<img src="house.png" alt="House Icon" />
+			</apex:outputPanel>
+			<apex:outputPanel rendered="{!(acct.Recordtype.DeveloperName!='HH_Account')}">
+				<img src="building.png" alt="Building Icon" />
+			</apex:outputPanel>
+		</div>
+	</section>
+	<section id="contact-info">
+		<div class="contact-info">			
+			<apex:outputPanel rendered="{!(acct.Recordtype.DeveloperName=='HH_Account')}">
+				<br /><h3>{!$ObjectType.Account.fields.npo02__Formal_Greeting__c.label}:</h3>
+				<h4>{!acct.npo02__Formal_Greeting__c}</h4>
+			</apex:outputPanel>
+			<br /><h3>{!$ObjectType.Account.fields.billingaddress.label}:</h3>
+			<h4>{!acct.billingstreet} {!acct.billingcity}<apex:outputPanel rendered="{!AND(NOT(ISBLANK(acct.billingState)),NOT(ISBLANK(acct.billingCity)))}">,</apex:outputPanel> 
+				{!acct.billingstate} {!acct.billingpostalcode}</h4>
+			<br /><h3>{!$ObjectType.Account.fields.shippingaddress.label}:</h3>
+			<h4>{!acct.shippingstreet} {!acct.shippingcity}<apex:outputPanel rendered="{!AND(NOT(ISBLANK(acct.shippingState)),NOT(ISBLANK(acct.shippingCity)))}">,</apex:outputPanel>  
+				{!acct.shippingstate} {!acct.shippingpostalcode}</h4>
+			<br /><h3>{!$ObjectType.Account.fields.npe01__One2OneContact__c.label}:</h3>
+			<h4>
+				{!acct.npe01__One2OneContact__r.Name}<apex:outputPanel rendered="{!NOT(ISBLANK(acct.npe01__One2OneContact__r.Title))}">, {!acct.npe01__One2OneContact__r.Title}</apex:outputPanel>
+			</h4>
+			<apex:outputPanel rendered="{!(acct.Recordtype.DeveloperName=='HH_Account')}">
+				<br /><h3>{!$ObjectType.Account.fields.npo02__Informal_Greeting__c.label}:</h3>
+				<h4>{!acct.npo02__Informal_Greeting__c}</h4>
+			</apex:outputPanel>
+			<apex:outputPanel rendered="{!AND(acct.Recordtype.DeveloperName!='HH_Account',NOT(ISBLANK(acct.npe01__One2OneContact__r.Name)))}">
+				<br /><h3>{!$ObjectType.Contact.fields.phone.label}:</h3><h4>{!acct.npe01__One2OneContact__r.phone}</h4>
+				<br /><h3>{!$ObjectType.Contact.fields.email.label}:</h3><h4>{!acct.npe01__One2OneContact__r.email}</h4>
+			</apex:outputPanel>
+		</div>
+	</section>
+	<section id="custom-fields">
+		<h2>Details</h2>
+		<hr />
+		<div class="custom-fields-col1">
+			<table class="custom-fields-table1">
+				<apex:repeat value="{!customFields}" var="fld">
+					<tr>
+						<td>
+							<h3>{!$ObjectType.Account.fields[fld].label}:</h3>
+							<h4><apex:outputField value="{!acct[fld]}" /></h4>
+						</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</div>
+		<div class="custom-fields-col2">
+		</div>
+	</section>
+	<apex:outputPanel rendered="{!(acct.Recordtype.DeveloperName=='HH_Account')}">
+		<section id="Contacts">
+			<h2>Contacts</h2>
+			<hr />
+			<table class="related-table activities-table">
+				<tr>
+					<th>{!$ObjectType.Contact.fields.Name.label}</th>
+					<th>{!$ObjectType.Contact.fields.Email.label}</th>
+					<th>{!$ObjectType.Contact.fields.HomePhone.label}</th>
+					<th>{!$ObjectType.Contact.fields.Phone.label}</th>
+				</tr>
+				<apex:repeat value="{!acct.Contacts}" var="con">
+					<tr>
+						<td>{!con.Name}</td>
+						<td>{!con.Email}</td>
+						<td>{!con.HomePhone}</td>
+						<td>{!con.Phone}</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</section>
+	</apex:outputPanel>
+	<section id="Activities">
+		<h2>Activities</h2>
+		<hr />
+		<apex:outputPanel rendered="{!NOT(ISNULL(activities))}">
+			<table class="related-table activities-table">
+				<tr>
+					<th>{!$ObjectType.ActivityHistory.fields.ActivityDate.label}</th>
+					<th>{!$ObjectType.ActivityHistory.fields.Subject.label}</th>
+					<th>{!$ObjectType.User.fields.Name.label}</th>
+					<th>{!$ObjectType.ActivityHistory.fields.Description.label}</th>
+				</tr>
+				<apex:repeat value="{!activities}" var="activ">
+					<tr>
+						<td><apex:outputField value="{!activ.ActivityDate}" /></td>
+						<td>{!activ.Subject}</td>
+						<td>{!activ.Owner.Name}</td>
+						<td>{!activ.Description}</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</apex:outputPanel>
+		<apex:outputPanel rendered="{!ISNULL(activities)}">
+			<p>No activities.</p>
+		</apex:outputPanel>
+	</section>
+	<apex:outputPanel rendered="{!(acct.Recordtype.DeveloperName!='HH_Account')}">
+		<section id="Affiliations">
+			<h2>Affiliated Contacts</h2>
+			<hr />
+			<apex:outputPanel rendered="{!NOT(ISNULL(affiliations))}">
+				<table class="related-table affiliations-table">
+					<tr>
+						<th>{!$ObjectType.Contact.fields.Name.label}</th>
+						<th>{!$ObjectType.npe5__Affiliation__c.fields.npe5__Role__c.label}</th>
+						<th>{!$ObjectType.npe5__Affiliation__c.fields.npe5__Status__c.label}</th>
+					</tr>
+					<apex:repeat value="{!affiliations}" var="affil">
+						<tr>
+							<td>{!affil.npe5__Contact__r.Name}</td>
+							<td>{!affil.npe5__Role__c}</td>
+							<td>{!affil.npe5__Status__c}</td>
+						</tr>
+					</apex:repeat>
+				</table>
+			</apex:outputPanel>
+			<apex:outputPanel rendered="{!ISNULL(affiliations)}">
+				<p>No affiliations.</p>
+			</apex:outputPanel>
+		</section>
+	</apex:outputPanel>
 
 </apex:page>

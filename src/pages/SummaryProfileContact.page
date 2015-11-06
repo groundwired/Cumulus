@@ -1,5 +1,8 @@
 <apex:page showHeader="false" standardStylesheets="false" sidebar="false" standardController="Contact" extensions="SummaryProfileView" title="Summary Profile">
-	<!-- <apex:stylesheet value="https://drive.google.com/open?id=0B8iTUPbf1WI4bUlhWWNRM3RjekE" /> -->
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'style.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'/style.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'SummaryProfileVFPageStaticResources/style.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.summary_profile_VF_page,'/SummaryProfileVFPageStaticResources/style.css')}"/>
 	<style>
 @font-face {
     font-family: SalesforceSans-Light;
@@ -15,10 +18,11 @@
 }
 h1 {
 	font-size: 2.75em;
-	margin: .6em 0 .6em 0;
+	margin: .5em 0 .1em 0;
 	font-family: SalesforceSans-Bold;
 }
 h2 {
+	margin: 1em 0 .1em 0;
 	font-family: SalesforceSans-Bold;
 }
 h3, h4 {
@@ -50,11 +54,16 @@ section {
 	float: left;
 }
 td {
-	padding: 0 20px 0 0;
+	padding: 1px 4em 1px 0;
 	font-family: SalesforceSans-Light;
 }
-.related-table tr:first-child td {
+p {
+	font-family: SalesforceSans-Light;
+}
+th {
+	padding: 1px 4em 1px 0;
 	font-family: SalesforceSans-Regular;
+	text-align: left;
 }
 td:last-child {
 	padding: 0;
@@ -71,36 +80,32 @@ td:last-child {
 	</section>
 	<section id="contact-info">
 		<div class="contact-info">			
-			<h3>Primary Affiliation:</h3>
+			<h3>{!$ObjectType.Contact.fields.Primary_Affiliation__c.label}:</h3>
 			<apex:outputPanel rendered="{!NOT(ISBLANK(con.Primary_Affiliation__c))}">
-				<h4><apex:outputPanel rendered="{!NOT(ISBLANK(con.Title))}">{!con.Title}, </apex:outputPanel>{!con.Primary_Affiliation__r.Name}<apex:outputPanel rendered="{!NOT(ISBLANK(con.Primary_Affiliation__r.Website))}"> ({!con.Primary_Affiliation__r.Website})</apex:outputPanel></h4>
+				<h4>
+					<apex:outputPanel rendered="{!NOT(ISBLANK(con.Title))}">{!con.Title}, </apex:outputPanel>
+					{!con.Primary_Affiliation__r.Name}
+					<apex:outputPanel rendered="{!NOT(ISBLANK(con.Primary_Affiliation__r.Website))}"> ({!con.Primary_Affiliation__r.Website})</apex:outputPanel>
+				</h4>
 			</apex:outputPanel>
-			<br /><h3>Phone:</h3><h4>{!con.phone}</h4>
-			<br /><h3>Email:</h3><h4>{!con.email}</h4>
-			<br /><h3>Address:</h3><h4>{!con.mailingstreet} {!con.mailingcity}, {!con.mailingstate} {!con.mailingpostalcode}</h4>
+			<br /><h3>{!$ObjectType.Contact.fields.phone.label}:</h3><h4>{!con.phone}</h4>
+			<br /><h3>{!$ObjectType.Contact.fields.email.label}:</h3><h4>{!con.email}</h4>
+			<br /><h3>{!$ObjectType.Contact.fields.mailingaddress.label}:</h3><h4>{!con.mailingstreet} {!con.mailingcity}, {!con.mailingstate} {!con.mailingpostalcode}</h4>
 		</div>
 	</section>
 	<section id="custom-fields">
 		<h2>Details</h2>
 		<hr />
 		<div class="custom-fields-col1">
-<!--
-	<apex:repeat var="v" value="{!customFields}">
-	</apex:repeat>
- -->
 			<table class="custom-fields-table1">
-				<tr>
-					<td><h3>Total Giving This Calendar Year:</h3><h4>$12,500</h4></td>
-				</tr>
-				<tr>
-					<td><h3>Date of First Donation:</h3><h4>12/15/2013</h4></td>
-				</tr>
-				<tr>
-					<td><h3>Position:</h3><h4>Cloud Consultant</h4></td>
-				</tr>
-				<tr>
-					<td><h3>Volunteer:</h3><h4>Yes</h4></td>
-				</tr>
+				<apex:repeat value="{!customFields}" var="fld">
+					<tr>
+						<td>
+							<h3>{!$ObjectType.Contact.fields[fld].label}:</h3>
+							<h4><apex:outputField value="{!con[fld]}" /></h4>
+						</td>
+					</tr>
+				</apex:repeat>
 			</table>
 		</div>
 		<div class="custom-fields-col2">
@@ -109,74 +114,73 @@ td:last-child {
 	<section id="Activities">
 		<h2>Activities</h2>
 		<hr />
-		<table class="related-table activities-table">
-			<tr>
-				<td>Date</td>
-				<td>Subject</td>
-				<td>Type</td>
-				<td>Owner Name</td>
-			</tr>
-			<tr>
-				<td>2/4/2014</td>
-				<td>Call to set up meeting</td>
-				<td>Call (Outbound)</td>
-				<td>Joan Williams</td>
-			</tr>
-			<tr>
-				<td>1/25/2014</td>
-				<td>Welcome Packet Sent</td>
-				<td>Postal Mail</td>
-				<td>Joan Williams</td>
-			</tr>
-			<tr>
-				<td>12/18/2013</td>
-				<td>Thank You Letter</td>
-				<td>Postal Mail Sent</td>
-				<td>Joan Williams</td>
-			</tr>
-		</table>
+		<apex:outputPanel rendered="{!NOT(ISNULL(activities))}">
+			<table class="related-table activities-table">
+				<tr>
+					<th>{!$ObjectType.ActivityHistory.fields.ActivityDate.label}</th>
+					<th>{!$ObjectType.ActivityHistory.fields.Subject.label}</th>
+					<th>{!$ObjectType.User.fields.Name.label}</th>
+					<th>{!$ObjectType.ActivityHistory.fields.Description.label}</th>
+				</tr>
+				<apex:repeat value="{!activities}" var="activ">
+					<tr>
+						<td><apex:outputField value="{!activ.ActivityDate}" /></td>
+						<td>{!activ.Subject}</td>
+						<td>{!activ.Owner.Name}</td>
+						<td>{!activ.Description}</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</apex:outputPanel>
+		<apex:outputPanel rendered="{!ISNULL(activities)}">
+			<p>No activities.</p>
+		</apex:outputPanel>
 	</section>
 	<section id="Affiliations">
 		<h2>Affiliations</h2>
 		<hr />
-		<table class="related-table affiliations-table">
-			<tr>
-				<td>Organization Name</td>
-				<td>Role</td>
-				<td>Status</td>
-			</tr>
-			<tr>
-				<td>Portland Humane Society</td>
-				<td>Volunteer</td>
-				<td>Current</td>
-			</tr>
-			<tr>
-				<td>Widget Web Design</td>
-				<td>Employee</td>
-				<td>Former</td>
-			</tr>
-		</table>
+		<apex:outputPanel rendered="{!NOT(ISNULL(affiliations))}">
+			<table class="related-table affiliations-table">
+				<tr>
+					<th>{!$ObjectType.Account.fields.Name.label}</th>
+					<th>{!$ObjectType.npe5__Affiliation__c.fields.npe5__Role__c.label}</th>
+					<th>{!$ObjectType.npe5__Affiliation__c.fields.npe5__Status__c.label}</th>
+				</tr>
+				<apex:repeat value="{!affiliations}" var="affil">
+					<tr>
+						<td>{!affil.npe5__Organization__r.Name}</td>
+						<td>{!affil.npe5__Role__c}</td>
+						<td>{!affil.npe5__Status__c}</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</apex:outputPanel>
+		<apex:outputPanel rendered="{!ISNULL(affiliations)}">
+			<p>No affiliations.</p>
+		</apex:outputPanel>
 	</section>
 	<section id="Relationships">
 		<h2>Relationships</h2>
-		<hr />
-		<table class="related-table relationships table">
-			<tr>
-				<td>Related Contact</td>
-				<td>Type</td>
-				<td>Status</td>
-			</tr>
-			<tr>
-				<td>Sarah Washam</td>
-				<td>Wife</td>
-				<td>Current</td>
-			</tr>
-			<tr>
-				<td>Romeo</td>
-				<td>Pet - Dog</td>
-				<td>Current</td>
-			</tr>
-		</table>
+		<hr /> 
+		<apex:outputPanel rendered="{!NOT(ISNULL(relationships))}">
+			<table class="related-table relationships-table">
+				<tr>
+					<th>{!$ObjectType.Contact.fields.Name.label}</th>
+					<th>{!$ObjectType.npe4__Relationship__c.fields.npe4__Type__c.label}</th>
+					<th>{!$ObjectType.npe4__Relationship__c.fields.npe4__Status__c.label}</th>
+				</tr>
+				<apex:repeat value="{!relationships}" var="rel">
+					<tr>
+						<td>{!rel.npe4__RelatedContact__r.Name}</td>
+						<td>{!rel.npe4__Type__c}</td>
+						<td>{!rel.npe4__Status__c}</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</apex:outputPanel>
+		<apex:outputPanel rendered="{!ISNULL(relationships)}">
+			<p>No relationships.</p>
+		</apex:outputPanel>
 	</section>
 
 </apex:page>
